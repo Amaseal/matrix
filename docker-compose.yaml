@@ -101,9 +101,7 @@ services:
     volumes:
       # ADD THIS LINE: Direct bind mount for the main Nginx configuration file
       - ./configurations/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-    configs:
-      - source: nginx_synapse_client_well_known
-        target: /usr/share/nginx/html/.well-known/matrix/client/index.html
+      - ./configurations/nginx/index.html:/usr/share/nginx/html/.well-known/matrix/client/index.html:ro
     #ports:
     #  - "8888:80"
 
