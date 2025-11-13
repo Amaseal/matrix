@@ -93,7 +93,7 @@ services:
     image: nginx:latest
     restart: unless-stopped
     volumes:
-      - ./configurations/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./configurations/nginx:/etc/nginx/conf.d:ro
       - ./configurations/nginx/index.html:/usr/share/nginx/html/.well-known/matrix/client/index.html:ro
     #ports:
     #  - "8888:80"
