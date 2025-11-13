@@ -54,23 +54,17 @@ services:
     restart: unless-stopped
     environment:
       SYNAPSE_CONFIG_PATH: /data/config
-    configs:
-      - source: synapse_homeserver
-        target: /data/config/homeserver.yaml
-      - source: synapse_db_config
-        target: /data/config/db.yaml
-      - source: synapse_oidc_config
-        target: /data/config/oidc.yaml
-      - source: synapse_email_config
-        target: /data/config/email.yaml
+    # All 'configs' are moved to 'volumes'
     volumes:
+      - ./configurations/synapse/homeserver.yaml:/data/config/homeserver.yaml:ro
+      - ./configurations/synapse/db.yaml:/data/config/db.yaml:ro
+      - ./configurations/synapse/oidc.yaml:/data/config/oidc.yaml:ro
+      - ./configurations/synapse/email.yaml:/data/config/email.yaml:ro
       - /data/matrix/synapse/data:/data
       - /data/matrix/synapse/media:/media_store
     depends_on:
       - postgres-synapse
       - synapse-mass-authentication-service
-    #ports:
-    #  - "8008:8008"
 
   sliding-sync:
     image: ghcr.io/matrix-org/sliding-sync:latest
@@ -89,9 +83,9 @@ services:
   synapse-mass-authentication-service:
     image: ghcr.io/element-hq/matrix-authentication-service:latest
     restart: unless-stopped
-    configs:
-      - source: synapse_mas_config
-        target: ./config.yaml
+    # Moved 'synapse_mas_config' to 'volumes'
+    volumes:
+      - ./configurations/synapse-mas/config.yaml:/config.yaml:ro
     depends_on:
       - postgres-synapse-mas
 
