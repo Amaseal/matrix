@@ -52,6 +52,7 @@ services:
   synapse:
     image: matrixdotorg/synapse:latest
     restart: unless-stopped
+    entrypoint: [ "python", "-m", "synapse.app.homeserver", "-c", "/data/homeserver.yaml" ]
     volumes:
       - ./configurations/synapse/homeserver.yaml:/data/homeserver.yaml:ro
       - ./configurations/synapse/db.yaml:/data/db.yaml:ro
@@ -72,7 +73,7 @@ services:
     #ports:
     #  - "8009:8009"
     environment:
-      SYNCV3_SERVER: ${SYNAPSE_FQDN}
+      SYNCV3_SERVER: http://synapse:8008
       SYNCV3_DB: "host=postgres-sliding-sync sslmode=disable port=5432 dbname=${POSTGRES_SLIDING_SYNC_DB} user=${POSTGRES_SLIDING_SYNC_USER} password=${POSTGRES_SLIDING_SYNC_PASSWORD}"
       SYNCV3_SECRET: ${SLIDING_SYNC_SECRET}
       SYNCV3_BINDADDR: 127.0.0.1:8009
