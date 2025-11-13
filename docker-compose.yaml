@@ -52,9 +52,6 @@ services:
   synapse:
     image: matrixdotorg/synapse:latest
     restart: unless-stopped
-    environment:
-      SYNAPSE_CONFIG_PATH: /data/config
-    # All 'configs' are moved to 'volumes'
     volumes:
       - ./configurations/synapse/homeserver.yaml:/data/homeserver.yaml:ro
       - ./configurations/synapse/db.yaml:/data/db.yaml:ro
